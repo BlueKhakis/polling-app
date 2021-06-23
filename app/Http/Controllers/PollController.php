@@ -57,7 +57,8 @@ class PollController extends Controller
         $votes = Vote::create(
             ['user_id' => Auth::user()->id,
             'poll_id' => $poll_id,
-            'option_id' => $option[0]->id
+            'option_id' => $option[0]->id,
+            'name' => $request->vote
         ]);
 
         Session::flash('status', 'thank you for voting for Deez Nuts in poll');

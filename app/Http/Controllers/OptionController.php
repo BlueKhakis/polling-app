@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Poll;
 use App\Models\Option;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class OptionController extends Controller
@@ -38,7 +40,8 @@ class OptionController extends Controller
         $poll = Poll::create(
             ['name' => $request->name,
             'description' => $request->description,
-            'single_choice' => $request->single_choice
+            'single_choice' => $request->single_choice,
+            'user_id' => Auth::user()->id
         ]);
 
         // dd($polls->id);
@@ -52,7 +55,7 @@ class OptionController extends Controller
                     [
                        'name' => $value,
                        'poll_id' => $poll->id,
-                       'selected' => 0
+                       
                     ]
                 );
             }

@@ -10,7 +10,8 @@
 
  @foreach ($poll->options as $option)
  <li>{{$option->name}}</li>
- @if ($poll->single_choice !== 0)
+ @if ($poll->single_choice === 0)
+
     <input type='checkbox' name='vote' value='{{$option->name}}'>
 @else
     <input type='radio' name='vote' value='{{$option->name}}'>
