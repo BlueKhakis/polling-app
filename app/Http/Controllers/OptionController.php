@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Poll;
+use App\Models\Option;
 use Illuminate\Http\Request;
 
 class OptionController extends Controller
@@ -34,7 +35,39 @@ class OptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $poll = Poll::create(
+            ['name' => $request->name,
+            'description' => $request->description,
+            'single_choice' => $request->single_choice
+        ]);
+
+        // dd($polls->id);
+
+        $rest = substr("option10", 0, 6);
+
+        foreach($request->all() as $key => $value) {
+            if (substr($key, 0, 6) === "option")
+            {
+                $option = Option::create(
+                    [
+                       'name' => $value,
+                       'poll_id' => $poll->id,
+                       'selected' => 0
+                    ]
+                );
+            }
+            print "$key => $value\n";
+        }
+
+        return redirect(action("PollController@index"));
+        
+
+        // for
+        // $options = Option::create(
+        //     ['name' => $request->name,
+        //     'description' => $request->description,
+        //     'single_choice' => $request->single_choice
+        // ]);
     }
 
     /**

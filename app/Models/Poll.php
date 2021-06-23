@@ -19,5 +19,5 @@ class Poll extends Model
             'name',
             'description',
             'single_choice'
-        ]
+        ];
 }

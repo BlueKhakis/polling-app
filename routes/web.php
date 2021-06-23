@@ -26,3 +26,7 @@ Route::get('/', 'PollController@index');
 Route::post('/store/{poll_id}', 'PollController@store')->middleware('auth');
 
 Route::get('/create', 'PollController@create');
+
+Route::post('/create/create2', 'PollController@create2');
+
+Route::post('/create/create2/optioncreate', 'OptionController@store');

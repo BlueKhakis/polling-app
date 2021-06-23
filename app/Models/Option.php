@@ -14,4 +14,11 @@ class Option extends Model
     public function poll() {
     return $this->belongsTo(Poll::class);
     }
+
+    protected $fillable =
+    [
+        'name',
+        'poll_id',
+        'selected'
+    ];
 }

@@ -1,24 +1,9 @@
-<h1>Create new poll</h1>
+<h1>How many options?</h1>
 
-<form method='post' action="">
+<form method='post' action="{{action('PollController@create2')}}">
 @csrf
-Name
-<input type="text" name='name'>
-<br>
-Desc
-<input type="text" name='description'>
-<br>
-Single choice:
-Yes
-<input type="radio" name="single_choice" id="0">
-No
-<input type="radio" name="single_choice" id="1">
+<input type="number" min='2' name='options' >
 
-<input type="number" min='2'>
-
-<input type="text">
-<input type="text">
-
-
+<input type="submit">
 
 </form>

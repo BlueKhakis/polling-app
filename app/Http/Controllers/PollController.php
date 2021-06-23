@@ -33,6 +33,13 @@ class PollController extends Controller
         return view('polls.create');
     }
 
+    public function create2(Request $request)
+    {
+        $options = $request->options;
+
+        return view('polls.create2', compact('options'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
