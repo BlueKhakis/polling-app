@@ -19,7 +19,6 @@ class PollController extends Controller
     public function index()
     {
         $polls = Poll::orderBy('name')->get();
-
         return view('polls.index', compact('polls'));
     }
 
@@ -36,7 +35,6 @@ class PollController extends Controller
     public function create2(Request $request)
     {
         $options = $request->options;
-
         return view('polls.create2', compact('options'));
     }
 
@@ -49,11 +47,6 @@ class PollController extends Controller
     public function store(Request $request, $poll_id)
     {
         $option = Option::where('name', $request->vote)->get();
-
-        
-
-       
-
         $votes = Vote::create(
             ['user_id' => Auth::user()->id,
             'poll_id' => $poll_id,
@@ -62,9 +55,7 @@ class PollController extends Controller
         ]);
 
         Session::flash('status', 'thank you for voting for Deez Nuts in poll');
-
         return redirect(action('PollController@show', $poll_id));
-        
     }
 
     /**
@@ -76,9 +67,7 @@ class PollController extends Controller
     public function show($id)
     {
         $poll = Poll::findOrFail($id);
-
         $user_id = $poll->user_id;
-
         return view('polls.show', compact('poll', 'user_id'));
     }
 
@@ -88,17 +77,39 @@ class PollController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $poll = Poll::findOrFail($id);
-
         $options = Option::where('poll_id', $poll->id)->get();
-
-        
-
-        return view('polls.edit', compact('poll', 'options'));
+        $newOptionsNo = 0;
+    //    dd($newOptionsNo);
+        // $optionsNo= sizeof($options->all()) + $request->plus;
+        return view('polls.edit', compact('poll', 'options', 'newOptionsNo'));
     }
 
+    public function editB(Request $request, $id)
+    {
+        $poll = Poll::findOrFail($id);
+        $options = Option::where('poll_id', $poll->id)->get();
+        $request->newOptionsNoB ? ($newOptionsNo=$request->newOptionsNoB) : ($newOptionsNo=0);
+        // dd($newOptionsNo);
+        // $optionsNo= sizeof($options->all()) + $request->plus;
+        return view('polls.edit', compact('poll', 'options', 'newOptionsNo'));
+    }
+
+
+    public function editA(Request $request, $id)
+    {
+        $poll = Poll::findOrFail($id);
+        dd($request->newOptionsNoA);
+        $options = Option::where('poll_id', $poll->id)->get();
+        $request->newOptionsNoA ? ($newOptionsNo = $request->newOptionsNoA) : ($newOptionsNo=0);
+    //    dd($newOptionsNo);
+        // $optionsNo= sizeof($options->all()) + $request->plus;
+        return view('polls.edit', compact('poll', 'options', 'newOptionsNo'));
+    }
+
+    
     /**
      * Update the specified resource in storage.
      *
@@ -108,29 +119,9 @@ class PollController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-// dd($request->all());
-
-$oldOptions = Option::where('poll_id', $poll->id)->get();
-        
-foreach($request->all() as $item)
-        {
-           var_dump($item);
-            if (empty($item))
-            {
-                $item = $oldOptions;
-            }
-            else
-            {
-                dd('not empty');
-            }
-
-        }
-
+        $oldOptions = Option::where('poll_id', $id)->get();
         $poll = Poll::findOrFail($id);
         $poll->update($request->all());
-
-        
 
         $newOptions = $request->all();
 
@@ -138,34 +129,18 @@ foreach($request->all() as $item)
         {
 
             foreach($newOptions as $key => $value) {
-
                 if (substr($key, 6) == $oldOptions[$i]->id)
                 {
                     $oldOptions[$i]->update([
                         'name' => $value
                     ]);
                 }
-        }    } 
+            }    
+        } 
 
         return redirect(action('PollController@show', $id));
     }
        
-       
-    //     foreach($oldOptions as $oldOption)
-    //     {
-    //         for ($i = 0; $i < sizeof($oldOptions); $i++)
-    //         {
-    //         if (substr($request[i]->id, 0, 6) === $oldOptions[i]->id )
-    //         {
-    //         $oldOption->update($request->all());
-    //         }
-    //     }
-    //     }
-    // }
-
-    //     return redirect(action('PollController@show', $poll->id));
-    // }
-
     /**
      * Remove the specified resource from storage.
      *

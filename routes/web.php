@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::get('/show/{id}', 'PollController@show');
 
-Route::get('/', 'PollController@index');
+Route::get('/home', 'PollController@index');
 
 // Route::post('/store', 'PollController@store');
 
@@ -34,5 +34,8 @@ Route::post('/create/create2/optioncreate', 'OptionController@store');
 Route::delete('/delete/{poll_id}', 'PollController@destroy');
 
 Route::get('/edit/{poll_id}', 'PollController@edit');
+
+Route::post('/edit/a{poll_id}', 'PollController@editA');
+Route::post('/edit/b{poll_id}', 'PollController@editB');
 
 Route::put('/update/{poll_id}', 'PollController@update');
