@@ -17,58 +17,54 @@ No
 <input type="hidden" name='_method' value='PUT'>
 
 
-
+{{-- it does render the old options --}}
 <?php    $oldOptionsNo = sizeof($options->all()) ?>
 <?php    $oldOptionsId = 0 ?>
 
-
-@for($i = 0; $i < $oldOptionsNo; $i++)
-
-    <input type="text" name='option{{$options[$i]->id}}' value='{{$options[$i]->name}}'>
-    <?php    $oldOptionsId = $i + 1 ?>
-
-
-@endfor
+    @for($i = 0; $i < $oldOptionsNo; $i++)
+        <input type="text" name='option{{$options[$i]->id}}' value='{{$options[$i]->name}}'>
+        <?php    $oldOptionsId = $i + 1 ?>
+    @endfor
 
 
-
+{{-- it does render the new options --}}
 <?php    $newOptionsId = $oldOptionsId+1 ?>
-
-
-@for($i = 0; $i < $newOptionsNo; $i++)
-
-    <input type="text" name='option{{$newOptionsId}}'>
-
-
-@endfor
+    @for($i = 0; $i < $newOptionsNo; $i++)
+        <input type="text" name='option{{$newOptionsId}}'>
+    @endfor
 
 
 
 <input type="submit">
-
 </form>
 
-    <?php var_dump($newOptionsNo) ?>
 
 <?php    $newOptionsNoA = $newOptionsNo ?>
+
+
+
 <form method='post' action="{{action('PollController@editA', $poll->id)}}">
 @csrf
 @method('POST')
     <input type="hidden" name="newOptionsNoA" value={{ $newOptionsNoA = $newOptionsNoA + 1 }}>
     <button>add one</button>
 </form>
-    <?php var_dump($newOptionsNo) ?>
-        <?php var_dump($newOptionsNoA) ?>
 
-<?php    $newOptionsNoB = $newOptionsNo ?>
+    <?php var_dump($newOptionsNo) ?>
+    <?php var_dump($newOptionsNoA) ?>
+
+<?php $newOptionsNoB = $newOptionsNo ?>
+
+
 <form method='post' action="{{action('PollController@editB', $poll->id)}}">
 @csrf
 @method('POST')
     <input type="hidden" name="newOptionsNoB" value={{ $newOptionsNoB = $newOptionsNoB - 2 }}>
     <button>remove one</button>
 </form>
+
     <?php var_dump($newOptionsNo) ?>
-        <?php var_dump($newOptionsNoB) ?>
+    <?php var_dump($newOptionsNoB) ?>
 
 
 

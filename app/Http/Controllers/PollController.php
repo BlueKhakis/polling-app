@@ -77,6 +77,8 @@ class PollController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+//default loading of edit page
     public function edit(Request $request, $id)
     {
         $poll = Poll::findOrFail($id);
@@ -87,17 +89,7 @@ class PollController extends Controller
         return view('polls.edit', compact('poll', 'options', 'newOptionsNo'));
     }
 
-    public function editB(Request $request, $id)
-    {
-        $poll = Poll::findOrFail($id);
-        $options = Option::where('poll_id', $poll->id)->get();
-        $request->newOptionsNoB ? ($newOptionsNo=$request->newOptionsNoB) : ($newOptionsNo=0);
-        // dd($newOptionsNo);
-        // $optionsNo= sizeof($options->all()) + $request->plus;
-        return view('polls.edit', compact('poll', 'options', 'newOptionsNo'));
-    }
-
-
+//is supposed to increment the newOptions variable 
     public function editA(Request $request, $id)
     {
         $poll = Poll::findOrFail($id);
@@ -105,6 +97,17 @@ class PollController extends Controller
         $options = Option::where('poll_id', $poll->id)->get();
         $request->newOptionsNoA ? ($newOptionsNo = $request->newOptionsNoA) : ($newOptionsNo=0);
     //    dd($newOptionsNo);
+        // $optionsNo= sizeof($options->all()) + $request->plus;
+        return view('polls.edit', compact('poll', 'options', 'newOptionsNo'));
+    }
+
+//is supposed to decrement the newOptions variable 
+    public function editB(Request $request, $id)
+    {
+        $poll = Poll::findOrFail($id);
+        $options = Option::where('poll_id', $poll->id)->get();
+        $request->newOptionsNoB ? ($newOptionsNo=$request->newOptionsNoB) : ($newOptionsNo=0);
+        // dd($newOptionsNo);
         // $optionsNo= sizeof($options->all()) + $request->plus;
         return view('polls.edit', compact('poll', 'options', 'newOptionsNo'));
     }
