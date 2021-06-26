@@ -30,3 +30,9 @@ Route::get('/create', 'PollController@create');
 Route::post('/create/create2', 'PollController@create2');
 
 Route::post('/create/create2/optioncreate', 'OptionController@store');
+
+Route::delete('/delete/{poll_id}', 'PollController@destroy');
+
+Route::get('/edit/{poll_id}', 'PollController@edit');
+
+Route::put('/update/{poll_id}', 'PollController@update');

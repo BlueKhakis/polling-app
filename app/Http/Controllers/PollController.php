@@ -77,7 +77,9 @@ class PollController extends Controller
     {
         $poll = Poll::findOrFail($id);
 
-        return view('polls.show', compact('poll'));
+        $user_id = $poll->user_id;
+
+        return view('polls.show', compact('poll', 'user_id'));
     }
 
     /**
@@ -88,7 +90,13 @@ class PollController extends Controller
      */
     public function edit($id)
     {
-        //
+        $poll = Poll::findOrFail($id);
+
+        $options = Option::where('poll_id', $poll->id)->get();
+
+        
+
+        return view('polls.edit', compact('poll', 'options'));
     }
 
     /**
@@ -100,8 +108,63 @@ class PollController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+// dd($request->all());
+
+$oldOptions = Option::where('poll_id', $poll->id)->get();
+        
+foreach($request->all() as $item)
+        {
+           var_dump($item);
+            if (empty($item))
+            {
+                $item = $oldOptions;
+            }
+            else
+            {
+                dd('not empty');
+            }
+
+        }
+
+        $poll = Poll::findOrFail($id);
+        $poll->update($request->all());
+
+        
+
+        $newOptions = $request->all();
+
+        for ($i = 0; $i < sizeof($oldOptions); $i++)
+        {
+
+            foreach($newOptions as $key => $value) {
+
+                if (substr($key, 6) == $oldOptions[$i]->id)
+                {
+                    $oldOptions[$i]->update([
+                        'name' => $value
+                    ]);
+                }
+        }    } 
+
+        return redirect(action('PollController@show', $id));
     }
+       
+       
+    //     foreach($oldOptions as $oldOption)
+    //     {
+    //         for ($i = 0; $i < sizeof($oldOptions); $i++)
+    //         {
+    //         if (substr($request[i]->id, 0, 6) === $oldOptions[i]->id )
+    //         {
+    //         $oldOption->update($request->all());
+    //         }
+    //     }
+    //     }
+    // }
+
+    //     return redirect(action('PollController@show', $poll->id));
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -111,6 +174,11 @@ class PollController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $poll = Poll::findOrFail($id);
+
+        $poll->delete();
+
+        return redirect(action('PollController@index'));
+
     }
 }

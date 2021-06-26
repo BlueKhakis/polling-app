@@ -21,6 +21,22 @@
  </ul>
  <input type='submit'>
  </form>
+
+
+
+@if (Auth::user()->id === $user_id)
+
+<form method='post' action='{{action("PollController@destroy", $poll->id)}}'>
+@csrf
+@method('DELETE')
+<input type="submit" value='Delete'>
+</form> 
+
+<form method='get' action='{{action("PollController@edit", $poll->id)}}'>
+<input type="submit" value='Edit'>
+</form> 
+@endif
+
  @if (session('status'))
     {{ session('status') }}
 @endif
